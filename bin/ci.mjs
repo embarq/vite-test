@@ -14,7 +14,13 @@ const debug = process.argv[2] === '--debug'
   })
   await server.listen()
 
-  const browser = await puppeteer.launch()
+  const options = {}
+
+  if ('PUPPETEER_EXECUTABLE_PATH' in process.env) {
+    options.executablePath = process.env.PUPPETEER_EXECUTABLE_PATH
+  }
+
+  const browser = await puppeteer.launch(options)
   const page = await browser.newPage()
   const address = `http://localhost:${PORT}/test.html`
 
